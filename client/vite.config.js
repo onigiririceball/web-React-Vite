@@ -3,6 +3,7 @@
  * ビルドツールの設定とプロキシ設定を行う
  */
 
+/// <reference types="vitest" />
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
@@ -10,6 +11,20 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   // プラグイン設定: React サポートを有効化
   plugins: [react()],
+
+  // テスト設定
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/test/setup.js',
+    deps: {
+      optimizer: {
+        web: {
+          include: ['@testing-library/react'],
+        },
+      },
+    },
+  },
 
   // 開発サーバー設定
   server: {
